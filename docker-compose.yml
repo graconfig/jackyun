@@ -1,0 +1,13 @@
+services:
+  erp-gateway:
+    build: .
+    container_name: oa-esb-erp-gateway
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - ERP_APP_KEY=${ERP_APP_KEY}
+      - ERP_APP_SECRET=${ERP_APP_SECRET}
+      - PORT=3000
+    env_file:
+      - .env

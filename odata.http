@@ -1,0 +1,19 @@
+
+@host = http://localhost:3000
+
+###
+POST {{host}}/invoke
+Content-Type: application/json
+
+# {
+#     "method": "erp.goodscate.get",
+#     "version": "v1.0",
+#     "bizcontent": "{\"cateCode\":\"425\"}"
+# }
+{
+    "method": "erp.goodscate.get",
+    "version": "v1.0",
+    "bizcontent": {
+        "cateCode": "425"
+    }
+}
