@@ -46,7 +46,7 @@ app.get('/health', (_req, res) => {
 
 const PORT = process.env.PORT ?? 3000
 app.listen(PORT, () => {
-  console.log(`[Gateway] 服务已启动，监听端口 ${PORT}`)
+  winstonLogger.info(`[Gateway] 服务已启动，监听端口 ${PORT}`)
 })
 
 export default app
