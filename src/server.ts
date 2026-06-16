@@ -10,6 +10,7 @@ import express, { Request, Response } from 'express'
 import { ConfigStore } from './config-store'
 import { GatewayService } from './gateway-service'
 import { HttpClient } from './http-client'
+import { winstonLogger } from './logger'
 import { Signer } from './signer'
 import { GatewayRequest } from './types'
 
@@ -19,7 +20,8 @@ app.use(express.json())
 const service = new GatewayService(
   new ConfigStore(),
   new Signer(),
-  new HttpClient()
+  new HttpClient(),
+  winstonLogger
 )
 
 app.post('/invoke', async (req: Request, res: Response) => {
