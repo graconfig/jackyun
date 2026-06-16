@@ -4,7 +4,7 @@
 
 ## 目标
 
-将现有 `console.log/error` 日志同时写入本地 `logs/` 目录，按天滚动，保留 30 天。
+将现有 `console.log/error` 日志同时写入本地 `logs/` 目录，按天滚动，保留 30 天。请求日志记录完整 body（含 bizcontent），不再受需求 8.1 的脱敏限制。
 
 ## 技术选型
 
@@ -15,6 +15,7 @@
 
 ```
 src/logger.ts          新增 — winston 实例，实现现有 Logger 接口
+src/gateway-service.ts 修改 — 请求日志增加 bizcontent 字段，移除需求 8.1 脱敏注释
 src/server.ts          修改 — 注入 winstonLogger 替代 defaultLogger
 logs/.gitkeep          新增 — 保证目录受版本控制
 .gitignore             修改 — 忽略 logs/*.log
@@ -60,7 +61,7 @@ export interface Logger {
 }
 ```
 
-`gateway-service.ts` 及所有测试文件**无需改动**。
+`gateway-service.ts` 请求日志部分需同步修改：将 `bizcontent` 加入 `requestLog` 对象，并移除"不记录 bizcontent 原文（需求 8.1）"注释。测试文件无需改动。
 
 ## Docker 部署
 
