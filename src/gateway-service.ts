@@ -50,12 +50,11 @@ export class GatewayService {
   async invoke(request: GatewayRequest): Promise<GatewayResponse | GatewayErrorResponse> {
     const startTime = Date.now()
 
-    // 请求日志：记录 method、version、timestamp、contextid（若有）
-    // 不记录 AppSecret 和 bizcontent 原文（需求 8.1）
     const requestLog: Record<string, string> = {
       method: request.method,
       version: request.version,
       timestamp: new Date().toISOString(),
+      bizcontent: request.bizcontent,
     }
     if (request.contextid) {
       requestLog['contextid'] = request.contextid

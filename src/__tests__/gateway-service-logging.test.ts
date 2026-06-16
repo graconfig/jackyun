@@ -154,11 +154,10 @@ describe('GatewayService - 属性测试', () => {
 
   /**
    * Feature: oa-esb-erp-gateway, Property 10: 日志不含敏感信息
-   * 生成任意请求，捕获日志输出，验证不含 AppSecret 和 bizcontent 原文
+   * 生成任意请求，捕获日志输出，验证不含 AppSecret
    * Validates: Requirements 8.1
    *
-   * 注：使用足够长且独特的字符串（minLength: 8）避免短字符串偶然出现在日志中
-   * （例如单个空格可能出现在 JSON 格式化输出中，不代表敏感信息泄露）
+   * 注：bizcontent 现已纳入请求日志记录（需求 8.1 更新），不再作为敏感信息限制
    */
   it('属性 10：日志不含敏感信息', async () => {
     await fc.assert(
@@ -167,7 +166,7 @@ describe('GatewayService - 属性测试', () => {
         fc.stringOf(fc.constantFrom(...'abcdefghijklmnopqrstuvwxyz0123456789.'.split('')), { minLength: 3, maxLength: 30 }),
         // 随机 version（非空）
         fc.stringOf(fc.constantFrom(...'0123456789'.split('')), { minLength: 1, maxLength: 5 }),
-        // 随机 bizcontent（足够长且独特，含特殊字符）
+        // 随机 bizcontent
         fc.string({ minLength: 8, maxLength: 200 }),
         // 随机 AppSecret（足够长且独特）
         fc.string({ minLength: 8, maxLength: 50 }),
@@ -192,9 +191,6 @@ describe('GatewayService - 属性测试', () => {
 
           // 日志不得包含 AppSecret
           if (allLogs.includes(appSecret)) return false
-
-          // 日志不得包含 bizcontent 原文
-          if (allLogs.includes(bizcontent)) return false
 
           return true
         }
